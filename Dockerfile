@@ -6,9 +6,10 @@ MAINTAINER nimmis <kjell.havneskold@gmail.com>
 # SPIGOT_VER          default minecraft version to compile
 # SPIGOT_AUTORESTART  set to yes to restart if minecraft stop command is executed
 ENV SPIGOT_HOME=/minecraft \
+    TYPE="PAPER"\
     SPIGOT_VER=latest \
     SPIGOT_AUTORESTART=yes \
-    MC_MAXMEM= \
+    MC_MAXMEM=\
     MC_MINMEM= \
     OTHER_JAVA_OPS= \
     LANG=en_US.UTF-8 \

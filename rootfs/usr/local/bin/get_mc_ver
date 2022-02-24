@@ -1,22 +1,34 @@
 #!/bin/bash
   
-  # build it if it not exists
-  if [ ! -f $SPIGOT_HOME/spigot-$1.jar ]; then
-    echo "Building spigot version ($1) jar file, be patient"
-    if [ -d /build-mc ]; then
-        rm -Rf /build-mc
-    fi
-    mkdir -p /build-mc
-    wget https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar -O /build-mc/BuildTools.jar
-    HOME=/build-mc
-    export HOME
-    cd $HOME
-    git config --global --unset core.autocrlf
-    java -Xmx1024M -jar BuildTools.jar --rev $1
-    cp /build-mc/spigot-*.jar $SPIGOT_HOME/spigot-$1.jar
-    cd $SPIGOT_HOME/
-    rm -Rf /build-mc
-  fi
+#  # build it if it not exists
+#  if [$2 == "SPIGOT"]; then
+#    if [ ! -f $SPIGOT_HOME/spigot-$1.jar ]; then
+#      echo "Building spigot version ($1) jar file, be patient"
+#      if [ -d /build-mc ]; then
+#          rm -Rf /build-mc
+#      fi
+#      mkdir -p /build-mc
+#      wget https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar -O /build-mc/BuildTools.jar
+#      HOME=/build-mc
+#      export HOME
+#      cd $HOME
+#      git config --global --unset core.autocrlf
+#      java -Xmx1024M -jar BuildTools.jar --rev $1
+#      cp /build-mc/spigot-*.jar $SPIGOT_HOME/spigot-$1.jar
+#      cd $SPIGOT_HOME/
+#      rm -Rf /build-mc
+#    fi
+#  fi
+
+#  if [$2 == "PAPER"]; then
+      Version=$1
+      BuildJSON=$(curl -H "Accept-Encoding: identity" -H "Accept-Language: en" -L -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4.212 Safari/537.36" https://papermc.io/api/v2/projects/paper/versions/$Version)
+      Build=$(echo "$BuildJSON" |     jq .builds[-1])
+      curl -H "Accept-Encoding: identity" -H "Accept-Language: en" -L -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4.212 Safari/537.36" -o paperclip.jar "https://papermc.io/api/v2/projects/paper/versions/$Version/builds/$Build/downloads/paper-$Version-$Build.jar"
+      echo -----------------
+      echo $1#$Build
+      echo -----------------
+#  fi
 
   if [ -f $SPIGOT_HOME/spigot-$1.jar ]; then
     echo "Successfull build of spigot version $1"	  
