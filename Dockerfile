@@ -1,4 +1,4 @@
-FROM nimmis/ubuntu:20.04
+FROM nimmis/ubuntu:22.04
 
 MAINTAINER nimmis <kjell.havneskold@gmail.com>
 
